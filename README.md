@@ -1,5 +1,5 @@
 # Spurp_SexDetermination_RAD
-Bioinformatic WorkFlow of sex determination within Spurp using RAD seq
+Bioinformatic WorkFlow used to find sex specific genotypes within Spurp using RAD seq
 
 ## Process Reads
 
@@ -23,3 +23,71 @@ do
 
 done
 ```
+
+## Alignment
+
+Reference Genome: http://ftp.echinobase.org/pub/Genomics/Spur5.0/sp5_0_GCF_genomic.fa.gz
+
+
+```shell
+#!/usr/bin/env bash
+PROG=/usr/local/bin
+####################
+# Reference Genome #
+#     1. Index     #
+#     2. align     #
+####################
+
+# Reference Directory and fasta
+REFDIR=/home/Shared_Data/Spurp_RAD/ref_genome
+REF=sp5_0_GCF_genomic.fa
+
+# Write Index Spurp from reference
+
+/usr/local/bin/bwa index -a bwtsw -p ${REFDIR}/Spurp ${REFDIR}/${REF}
+
+INDIR=/home/Shared_Data/Spurp_RAD/01-PROCESS
+OUTDIR=/home/Shared_Data/Spurp_RAD/02-ALIGN
+rm $OUTDIR/bam_stats.txt
+
+for i in ${INDIR}/*1.fq.gz;
+do
+                # RAD Paired Files
+        FQ1=${i}
+        FQ2=$(echo $FQ1 | sed 's/1.fq.gz/2.fq.gz/')
+        # Prefix (ID)
+        SAM=$(basename $FQ1 .out_1.fq.gz)
+        BAM=$OUTDIR/${SAM}.bam
+        #echo $FQ1 $FQ2 $SAM
+	
+	# Align Reads
+        $PROG/bwa mem -t 20 -R $RG ${REFDIR}/Spurp $FQ1 $FQ2 | \
+        $PROG/samtools view -S -h -u - | \
+        $PROG/samtools sort - > $BAM
+        $PROG/samtools index $BAM
+
+        # Get Alignment Statistics
+        MM=$($PROG/samtools flagstat $BAM | grep -E 'mapped \(|properly' | cut -f1 -d '+' | tr -d '\n')
+        CM=$($PROG/samtools idxstats $BAM | mawk '$3 > 0' | wc -l)
+        CC=$($PROG/samtools idxstats $BAM | mawk '{ sum += $3; n++ } END { if (n > 0) print sum / n; }')
+        DD=$($PROG/samtools idxstats $BAM | mawk '$3 >0' | mawk '{ sum += $3; n++ } END { if (n > 0) print sum / n; }')
+        BM=$($PROG/samtools flagstat $BAM | grep mapQ | cut -f1 -d ' ')
+        MR=$($PROG/samtools flagstat $BAM |  grep "mapped (" | awk '{print $5}' | cut -b 2-5)
+        echo -e "$SAM\t$MM\t$CM\t$CC\t$DD\t$BM\t$MR" >> $OUTDIR/bam_stats.txt
+
+done
+```
+
+**Alignment Statistics** are stored **here**: /02-ALIGN/bam_stats.txt 
+
+## Variant Calling
+
+error message from /usr/local/bin/freebayes : 
+/usr/local/bin/freebayes: error while loading shared libraries: libbz2.so.1.0: cannot open shared object file: No such file or directory
+
+Switched to locally installing via anaconda ``conda install -c bioconda freebayes``
+
+```shell
+
+```
+
