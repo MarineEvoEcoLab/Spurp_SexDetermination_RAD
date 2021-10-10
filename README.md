@@ -52,7 +52,7 @@ rm $OUTDIR/bam_stats.txt
 
 for i in ${INDIR}/*1.fq.gz;
 do
-                # RAD Paired Files
+        # RAD Paired Files
         FQ1=${i}
         FQ2=$(echo $FQ1 | sed 's/1.fq.gz/2.fq.gz/')
         # Prefix (ID)
@@ -85,9 +85,15 @@ done
 error message from /usr/local/bin/freebayes : 
 /usr/local/bin/freebayes: error while loading shared libraries: libbz2.so.1.0: cannot open shared object file: No such file or directory
 
-Switched to locally installing via anaconda ``conda install -c bioconda freebayes``
+Switched to locally installing via anaconda ``conda install -c bioconda freebayes/1.3.5``
 
 ```shell
 
 ```
 
+## Variant Filtering
+
+```shell
+
+```
+## Presence & Absence w/ Sex
