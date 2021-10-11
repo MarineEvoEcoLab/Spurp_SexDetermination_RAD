@@ -88,6 +88,27 @@ error message from /usr/local/bin/freebayes :
 Switched to locally installing via anaconda ``conda install -c bioconda freebayes/1.3.5``
 
 ```shell
+#!/bin/usr/env bash
+
+######### input, output, directories ------------------------
+
+INDIR=/home/Shared_Data/Spurp_RAD/02-ALIGN
+OUTDIR=/home/Shared_Data/Spurp_RAD/03-VARIANT
+mkdir -p $OUTDIR
+
+# reference genome
+REF=/home/Shared_Data/Spurp_RAD/ref_genome/sp5_0_GCF_genomic.fa
+
+# list of bam files
+SAMPLES_FILE=/home/Shared_Data/Spurp_RAD/sample_list.txt
+BAMLIST=$OUTDIR/bam.list
+tail -n +2 $SAMPLES_FILE | sed 's/$/.bam/' | sed "s,^,$INDIR/," > $BAMLIST
+
+######### run freebayes -------------------------------------
+# Local install version
+freebayes -f ${REF} --bam-list $BAMLIST \
+        -m 30 -q 20 \
+        --min-coverage 1000 --skip-coverage 50000 > $OUTDIR/Spurp.vcf
 
 ```
 
