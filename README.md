@@ -122,9 +122,10 @@ $PROG/vcftools --vcf $F3 --remove-indels --recode --recode-INFO-all --stdout > $
 ```
 
 <p align="center">
-<img src="Individual_Depth-1.png" width = "45%">
-<img src="Missing_Individuals-1.png" width = "45%">
+<img src="03-VARIANT/PLOTS/Individual_Depth-1.png" width = "45%">
+<img src="03-VARIANT/PLOTS/Missing_Individuals-1.png" width = "45%">
 </p>
+
 **Figure 1.** Distribution of data for individual missingness and mean-depth
 
 ## Presence & Absence w/ Sex
