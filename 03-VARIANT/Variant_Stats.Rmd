@@ -1,0 +1,136 @@
+---
+title: "Variant Statisticsr"
+author: "Gabriel Barrett"
+date: "10/13/2021"
+output: github_document
+---
+
+```{r}
+knitr::opts_knit$set(root.dir = "D:/Puritz_Lab/Spurp_SexDetermination_RAD/03-VARIANT/")
+
+knitr::opts_chunk$set(fig.path = "PLOTS/")
+
+library(tidyverse)
+library(ggpubr)
+library(gridExtra)
+library(readxl)
+```
+
+```{r QUALITY, eval=F}
+var_qual <- read_delim("STATS/fb.lqual", delim = "\t",
+           col_names = c("chr", "pos", "qual"), skip = 1)
+
+q <- ggplot(var_qual, aes(qual)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3) + theme_classic()
+q 
+q + coord_cartesian(xlim = c(-0.01,50000))
+```
+
+```{r Site DEPTH, eval=F}
+var_depth <- read_delim("STATS/fb.ldepth", delim = "\t",
+                        col_names = c("chr", "pos", "sum_depth", "sumsq_depth"), skip = 1)
+
+sd <- ggplot(var_depth, aes(sum_depth)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3) + 
+  theme_classic() + xlab("Sum Site Depth") + ylab("Density") + theme(plot.margin=grid::unit(c(0,0,0,0), "cm")) + coord_cartesian(expand=FALSE)
+
+sd100 <- sd + xlab("Sum Site Depth (0-100)") + coord_cartesian(xlim = c(-0.01,100), ylim = c(0,.25), expand=F)
+ggarrange(sd + labs(tag="A"), sd100 + labs(tag="B"), ncol=2)
+
+summary(var_depth$sum_depth)
+```
+
+```{r MEAN SITE DEPTH}
+var_mean_depth <- read_delim("STATS/Spurp.ldepth.mean", delim = "\t",
+                        col_names = c("chr", "pos", "mean_depth", "var_depth"), skip = 1)
+
+msd <- ggplot(var_mean_depth, aes(mean_depth)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3) + 
+  theme_classic() + xlab("Mean Site Depth") + ylab("Density") + theme(plot.margin=grid::unit(c(0,0,0,0), "cm")) + coord_cartesian(expand=FALSE)
+
+msd100 <- msd + xlab("Mean Site Depth (0-150)") + coord_cartesian(xlim = c(-0.01,150), ylim = c(0,.25), expand=F)
+
+summary(var_mean_depth$mean_depth)
+mean <- mean(var_mean_depth$mean_depth)
+std <- sd(var_mean_depth$mean_depth)
+cutoff <- sum(mean + (2*std))
+
+ggarrange(msd + labs(tag="A"), msd100+ labs(tag="B"), ncol=2)
+```
+
+```{r Missing Sites}
+var_miss <- read_delim("STATS/Spurp.lmiss", delim = "\t",
+                       col_names = c("chr", "pos", "nchr", "nfiltered", "nmiss", "fmiss"), skip = 1)
+summary(var_miss$fmiss)
+ms <- ggplot(var_miss, aes(fmiss)) + geom_density(fill = "dodgerblue2", colour = "black", alpha = 0.3) + 
+  theme_classic() + xlab("Fraction Missing Per Site") + ylab("Density") +  theme(plot.margin=grid::unit(c(0,0,0,0), "cm"))  + coord_cartesian(xlim = c(-0.01,1),expand=F)
+ms
+```
+
+```{r ALLELE FREQUENCY, eval=FALSE}
+var_freq <- read_delim("STATS/Spurp.frq", delim = "\t",
+                       col_names = c("chr", "pos", "nalleles", "nchr", "a1", "a2"), skip = 1)
+
+# calculate the minor allele frequency
+var_freq$maf <- var_freq %>% select(a1, a2) %>% apply(1, function(z) min(z))
+
+freq_sum<-var_freq%>%
+  summarise(avg=mean(maf), med=median(maf))
+
+# Distribution of allele frequencies
+af <- ggplot(var_freq, aes(maf)) + geom_density(fill = "dodgerblue3", colour = "black", alpha = 0.3) + 
+  theme_classic() + xlab("Minor Allele Frequency (maf)") + ylab("Density") +
+  geom_text(x = 0.3, y = 40,aes(label=paste0("Mean:",round(avg,3)," Median:",round(med,3))),data = freq_sum) +  theme(plot.margin=grid::unit(c(0,0,0,0), "cm"))  + coord_cartesian(xlim = c(-0.009,.51),expand=F)
+af
+```
+
+```{r Hardy-Weinberg Equilibrium}
+var_hwe <- read_delim("STATS/Spurp.hwe", delim = "\t",
+                      col_names = c("chr", "pos", "obs", "exp", "chi_sq", "p_hwe", "p_het_def", "p_het_exc"), skip=1)
+summary(var_hwe$p_hwe)
+
+hwe <- ggplot(var_hwe, aes(p_hwe)) + geom_density(fill = "dodgerblue3", colour = "black", alpha = 0.3) + theme_classic()
+hwe
+```
+## Individual Stats
+
+```{r Missing_Individuals}
+ind_miss  <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.imiss", delim = "\t",
+                        col_names = c("ind", "ndata", "nfiltered", "nmiss", "fmiss"), skip = 1)
+
+ind_miss %>% arrange(desc(fmiss))
+
+# Focus on the fmiss column telling us the proportion missing
+s <- ggplot(ind_miss, aes(fmiss)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = 0.3) + theme_classic() + 
+  ylab("# of Individuals") + xlab("Fraction Genotypes Missing")  + coord_cartesian(expand=F)
+
+high_missing<-ind_miss %>%
+  filter(fmiss > .5)
+
+knitr::kable(
+  high_missing, format = "html",caption = "Individuals Missing Greater than .4 Genotypes",
+  booktabs = TRUE
+)
+s
+```
+
+
+```{r Individual_Depth}
+ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.idepth", delim = "\t",
+                        col_names = c("ind", "nsites", "depth"), skip = 1) 
+
+ind_depth %>% arrange(depth)
+ind_depth %>% arrange(desc(depth))
+
+d <- ggplot(ind_depth, aes(depth)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = .3) + ylab("# of Individuals") + xlab("Mean Depth") + theme_classic() + coord_cartesian(expand=F)
+
+d
+```
+
+```{r Heterozygosity, eval=F}
+ind_het <- read_delim("STATS/Spurp_F2.het", delim = "\t",
+                      col_names = c("ind","ho", "he", "nsites", "f"), skip = 1) 
+
+ind.het.plot <- ggplot(ind_het, aes(f)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = 0.3) + theme_classic() +
+  ylab("# of Individuals")+ xlab("Heterozygosity")  + coord_cartesian(expand=F)
+ind_het %>% arrange(desc(f))
+ind_het %>%
+  filter(f < -.5 | f > .5)
+```

@@ -1,5 +1,6 @@
 # Spurp_SexDetermination_RAD
 Bioinformatic WorkFlow used to find sex specific genotypes within Spurp using RAD seq
+10 M, 18 F
 
 ## Process Reads
 
@@ -88,34 +89,45 @@ error message from /usr/local/bin/freebayes :
 Switched to locally installing via anaconda ``conda install -c bioconda freebayes/1.3.5``
 
 ```shell
-#!/bin/usr/env bash
+#!/usr/bin/env bash
+PROG=/usr/local/bin
+DIR=/home/Shared_Data/Spurp_RAD/03-VARIANT
 
-######### input, output, directories ------------------------
+######### Attach filter prefix ---------------------------------------
 
-INDIR=/home/Shared_Data/Spurp_RAD/02-ALIGN
-OUTDIR=/home/Shared_Data/Spurp_RAD/03-VARIANT
-mkdir -p $OUTDIR
+FILE=${DIR}/Spurp.vcf
+F1=$(echo $FILE | sed 's/vcf/minQ20.minGQ20.minDP40.maxDP166.vcf/')
+F2=$(echo $F1 | sed 's/vcf/miss1.vcf/')
+F3=$(echo $F2 | sed 's/vcf/snps.vcf/')
+F4=$(echo $F3 | sed 's/vcf/ri.vcf/')
 
-# reference genome
-REF=/home/Shared_Data/Spurp_RAD/ref_genome/sp5_0_GCF_genomic.fa
+########### vcftools  -----------------------------------------------
 
-# list of bam files
-SAMPLES_FILE=/home/Shared_Data/Spurp_RAD/sample_list.txt
-BAMLIST=$OUTDIR/bam.list
-tail -n +2 $SAMPLES_FILE | sed 's/$/.bam/' | sed "s,^,$INDIR/," > $BAMLIST
+$PROG/vcftools --vcf $FILE --minQ 20 --minGQ 20 --min-meanDP 40 --max-meanDP 166 --recode --recode-INFO-all --stdout > $F1
 
-######### run freebayes -------------------------------------
-# Local install version
-freebayes -f ${REF} --bam-list $BAMLIST \
-        -m 30 -q 20 \
-        --min-coverage 1000 --skip-coverage 50000 > $OUTDIR/Spurp.vcf
+########## per-pop miss --------------------------------------------
+
+# write popmap.txt
+awk '{print $4"\t"$3}' /home/Shared_Data/Spurp_RAD/meta/Sp_Radseq_Files_Guide.txt | tail -n +2 | sort | uniq > popmap.txt
+
+sh filter_miss_by_pop.sh $F1 popmap.txt .99 1 $F2
+
+########## DECOMPOSE into SNPs ------------------------------------
+
+$PROG/vcfallelicprimitives $F2 --keep-info --keep-geno > $F3
+
+######### Remove INDELS -------------------------------------------
+
+$PROG/vcftools --vcf $F3 --remove-indels --recode --recode-INFO-all --stdout > $F4
 ```
 
-successfully called 30177 genotypes
+<p align="center">
+<img src="Individual_Depth-1.png" width = "45%">
+<img src="Missing_Individuals-1.png" width = "45%">
+</p>
+**Figure 1.** Distribution of data for individual missingness and mean-depth
 
-## Variant Filtering
-
-```shell
-
-```
 ## Presence & Absence w/ Sex
+
+## Bedtools 
+``bedtools coverage``

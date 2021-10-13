@@ -1,0 +1,49 @@
+Location	Sex	Urchin	"Filenames (Use the ones with ""L3"" in the name for Original_Reads)"	Covered Bases	Ave Depth	reads	map ratio		"Use files with ""L3"" in the name for the original reads files"					
+Original_Reads Clean	Male	Spm1-3	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm1-3_1.fq	"114,326,046"	62.36116277	"54,152,239"	78.39%							
+Original_Reads Clean	Male	Spm1-3	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm1-3_2.fq			"54,152,239"	78.39%							
+Original_Reads Clean	Male	Spm3	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm3_1.fq	"98,743,957"	31.34097276	"23,477,041"	78.27%							
+Original_Reads Clean	Male	Spm3	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm3_2.fq			"23,477,041"	78.27%							
+Original_Reads Clean	Male	Spm4	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm4_1.fq	"99,776,905"	30.23042988	"22,876,790"	78.38%							
+Original_Reads Clean	Male	Spm4	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm4_2.fq			"22,876,790"	78.38%							
+Original_Reads Clean	Male	Spm10	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm10_1.fq	"96,646,981"	30.09443577	"22,005,922"	78.54%							
+Original_Reads Clean	Male	Spm10	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm10_2.fq			"22,005,922"	78.54%							
+Original_Reads Clean	Male	Spm8	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm8_1.fq.gz	"97,467,814"	27.95434901	"20,678,587"	78.26%							
+Original_Reads Clean	Male	Spm8	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm8_2.fq.gz			"20,678,587"	78.26%							
+Original_Reads Clean	Male	Spm11	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm11_1.fq.gz	"96,022,679"	28.35595224	"20,617,474"	78.43%							
+Original_Reads Clean	Male	Spm11	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm11_2.fq.gz			"20,617,474"	78.43%							
+Original_Reads Clean	Male	Spm16	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm16_1.fq.gz	"94,592,193"	27.79016312	"20,258,632"	77.02%							
+Original_Reads Clean	Male	Spm16	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm16_2.fq.gz			"20,258,632"	77.02%							
+Original_Reads Clean	Male	Spm14	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm14_1.fq.gz	"94,583,256"	25.72456387	"18,414,519"	78.50%							
+Original_Reads Clean	Male	Spm14	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm14_2.fq.gz			"18,414,519"	78.50%							
+Original_Reads Clean	Male	Spm2	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm2_1.fq.gz	"93,732,914"	25.2290226	"17,955,621"	78.24%							
+Original_Reads Clean	Male	Spm2	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm2_2.fq.gz			"17,955,621"	78.24%							
+Original_Reads Clean	Male	Spm7	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm7_1.fq.gz	"94,142,009"	23.85820583	"16,986,354"	78.55%							
+Original_Reads Clean	Male	Spm7	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spm7_2.fq.gz			"16,986,354"	78.55%							
+New_Female_Reads Clean	Female	Spf32	Spf32_1	"87,628,173"	11.10514808	"7,392,103"	78.13%							
+New_Female_Reads Clean	Female	Spf32	Spf32_2			"7,392,103"	78.13%							
+New_Female_Reads Clean	Female	Spf18	Spf18_1	"93,299,203"	9.27308154	"6,670,724"	77.06%							
+New_Female_Reads Clean	Female	Spf18	Spf18_2			"6,670,724"	77.06%							
+New_Female_Reads Clean	Female	Spf28	Spf28_1	"82,421,274"	10.30199496	"6,434,623"	78.33%							
+New_Female_Reads Clean	Female	Spf28	Spf28_2			"6,434,623"	78.33%							
+New_Female_Reads Clean	Female	Spf25	Spf25_1	"90,027,798"	8.894575829	"6,142,935"	77.40%							
+New_Female_Reads Clean	Female	Spf25	Spf25_2			"6,142,935"	77.40%							
+Original_Reads Clean	Female	Spf29-3	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spf29-3_1.fq.gz	"308,521,662"	"* from BGI, before trimming"	"5,120,148"	78.45%		"*note there are only 3 useable females in the ""Original_Reads"" Clean folder, the rest are bad"					
+Original_Reads Clean	Female	Spf29-3	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spf29-3_2.fq.gz			"5,120,148"	78.45%							
+New_Female_Reads Clean	Female	Spf6	Spf6_1	"78,128,343"	8.234610249	"5,078,720"	75.16%							
+New_Female_Reads Clean	Female	Spf6	Spf6_2			"5,078,720"	75.16%							
+Original_Reads Clean	Female	Spf17	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spf17_1.fq.gz	"69,299,001"	8.049232513	"4,261,803"	77.65%							
+Original_Reads Clean	Female	Spf17	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spf17_2.fq.gz			"4,261,803"	77.65%							
+New_Female_Reads Clean	Female	Spf30	Spf30_1	"71,731,924"	7.219323003	"3,940,145"	78.00%							
+New_Female_Reads Clean	Female	Spf30	Spf30_2			"3,940,145"	78.00%							
+New_Female_Reads Clean	Female	Spf35	Spf35_1	"68,852,893"	3.72941044	"1,949,378"	78.19%							
+New_Female_Reads Clean	Female	Spf35	Spf35_2			"1,949,378"	78.19%							
+Original_Reads Clean	Female	Spf24	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spf24_1.fq.gz	"330,747,375"	"* from BGI, before trimming"	"1,889,985"	78.23%							
+Original_Reads Clean	Female	Spf24	FCC60LLACXX_L3_URChcfR1AAD24FAAPEI-7_Spf24_2.fq.gz			"1,889,985"	78.23%							
+Original_Reads Clean	Female	Spf13				"949,500"	78.46%		Don’t use these ones unless you absolutely have to!!!!					
+Original_Reads Clean	Female	Spf26				"483,928"	77.58%							
+Original_Reads Clean	Female	Spf12				"419,324"	70.35%							
+Original_Reads Clean	Female	Spf14				"283,609"	77.15%							
+Original_Reads Clean	Female	Spf43				"267,078"	46.07%		Not good at all					
+Original_Reads Clean	Female	Spf45				"201,620"	39.30%							
+Original_Reads Clean	Female	Spf42				"48,253"	35.35%							
+Original_Reads Clean	Female	Spf44				"488,443"	53.50%							
