@@ -109,8 +109,9 @@ tail -n +2 $SAMPLES_FILE | sed 's/$/.bam/' | sed "s,^,$INDIR/," > $BAMLIST
 freebayes -f ${REF} --bam-list $BAMLIST \
         -m 30 -q 20 \
         --min-coverage 1000 --skip-coverage 50000 > $OUTDIR/Spurp.vcf
-
 ```
+
+successfully called 30177 genotypes
 
 ## Variant Filtering
 
