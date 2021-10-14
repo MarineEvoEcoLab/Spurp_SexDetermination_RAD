@@ -139,3 +139,7 @@ $PROG/vcftools --vcf $F3 --remove-indels --recode --recode-INFO-all --stdout > $
 
 ## Bedtools 
 ``bedtools coverage``
+
+## Mapping
+
+map short reads to a genome with assigned chromosomes.
