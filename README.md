@@ -128,6 +128,13 @@ $PROG/vcftools --vcf $F3 --remove-indels --recode --recode-INFO-all --stdout > $
 
 **Figure 1.** Distribution of data for individual missingness and mean-depth
 
+<p align="center">
+<img src="04-PCA/PLOTS/PCA-1-1.png" width = "75%">
+</p>
+
+
+**Figure 2.** principal component analysis via plink ~6% variance explained on both axis
+
 ## Presence & Absence w/ Sex
 
 ## Bedtools 

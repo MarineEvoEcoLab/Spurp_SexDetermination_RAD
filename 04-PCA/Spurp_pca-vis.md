@@ -1,26 +1,11 @@
----
-title: "Landscape Genomics PCA Analysis"
-author: "Gabriel Barrett"
-date: "9/17/2020"
-output: github_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
-knitr::opts_knit$set(root.dir = "D:/Puritz_Lab/Spurp_SexDetermination_RAD/04-PCA")
-
-knitr::opts_chunk$set(fig.path = "D:/Puritz_Lab/Spurp_SexDetermination_RAD/04-PCA/PLOTS/")
-
-library(tidyverse)
-library(ggplot2)
-library(dbplyr)
-library(ggpubr)
-```
+Landscape Genomics PCA Analysis
+================
+Gabriel Barrett
+9/17/2020
 
 ## PCA Analysis From Plink
 
-```{r Data Wrangling}
+``` r
 #load eigenvectors/values 
 pca <- read.delim("Spurp.eigenvec", header = FALSE, sep = " ")
 eigenval <- scan("Spurp.eigenval")
@@ -33,20 +18,28 @@ names(pca)[2:ncol(pca)] <- paste0("PC",1:(ncol(pca)-1))
 meta <- read.delim("../meta/Sp_Radseq_Files_Guide.txt") %>% select(Urchin, Sex)
 
 df <- left_join(pca,meta,by=c("ind"="Urchin"))
-
 ```
- 
 
-```{r Variance Explained}
+``` r
 pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
 a <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")
 a + ylab("Percentage variance explained") + theme_classic()
 ```
 
-```{r PCA-1, fig.width=7, fig.height=7}
+![](D:/Puritz_Lab/Spurp_SexDetermination_RAD/04-PCA/PLOTS/Variance%20Explained-1.png)<!-- -->
+
+``` r
 library(ggsci)
 library(viridis)
+```
 
+    ## Warning: package 'viridis' was built under R version 4.0.5
+
+    ## Loading required package: viridisLite
+
+    ## Warning: package 'viridisLite' was built under R version 4.0.5
+
+``` r
 ggplot(df, aes(PC5, PC4, color=Sex)) + geom_point(size = 3, alpha = .875) + 
   coord_equal() + 
   xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) + 
@@ -66,6 +59,10 @@ ggplot(df, aes(PC5, PC4, color=Sex)) + geom_point(size = 3, alpha = .875) +
   ) + 
   guides(fill = guide_legend(override.aes = list(linetype = 0)),
          color = guide_legend(override.aes = list(linetype = 0)))
+```
 
+![](D:/Puritz_Lab/Spurp_SexDetermination_RAD/04-PCA/PLOTS/PCA-1-1.png)<!-- -->
+
+``` r
 #ggsave("LG.snps1.FFP5.MAF.01.HWE.01.MISS.65.MD.69.PCA.png",last_plot(),device="png")
 ```
