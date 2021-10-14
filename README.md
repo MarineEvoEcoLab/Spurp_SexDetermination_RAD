@@ -129,7 +129,7 @@ $PROG/vcftools --vcf $F3 --remove-indels --recode --recode-INFO-all --stdout > $
 **Figure 1.** Distribution of data for individual missingness and mean-depth
 
 <p align="center">
-<img src="04-PCA/PLOTS/PCA-1-1.png" width = "75%">
+<img src="04-PCA/PLOTS/PCA-1-1.png" width = "55%">
 </p>
 
 

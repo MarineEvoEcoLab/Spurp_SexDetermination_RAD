@@ -201,6 +201,9 @@ ind_miss  <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.
     ## )
 
 ``` r
+meta <- read.delim("../meta/Sp_Radseq_Files_Guide.txt") %>% select(Urchin, Sex)
+ind_miss_join <- left_join(ind_miss,meta,by=c("ind"="Urchin"))
+
 ind_miss %>% arrange(desc(fmiss))
 ```
 
@@ -221,7 +224,7 @@ ind_miss %>% arrange(desc(fmiss))
 
 ``` r
 # Focus on the fmiss column telling us the proportion missing
-s <- ggplot(ind_miss, aes(fmiss)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = 0.3) + theme_classic() + 
+s <- ggplot(ind_miss_join, aes(fmiss,fill=Sex)) + geom_histogram(colour = "black", alpha = 0.3) + theme_classic() + 
   ylab("# of Individuals") + xlab("Fraction Genotypes Missing")  + coord_cartesian(expand=F)
 
 high_missing<-ind_miss %>%
@@ -397,7 +400,7 @@ s
 
 ``` r
 ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.idepth", delim = "\t",
-                        col_names = c("ind", "nsites", "depth"), skip = 1) 
+                        col_names = c("ind", "nsites", "depth"), skip = 1) %>% left_join(.,meta,by=c("ind"="Urchin"))
 ```
 
     ## 
@@ -412,42 +415,42 @@ ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.
 ind_depth %>% arrange(depth)
 ```
 
-    ## # A tibble: 28 x 3
-    ##    ind   nsites depth
-    ##    <chr>  <dbl> <dbl>
-    ##  1 Spf42   2386  1.75
-    ##  2 Spf14   7452  1.85
-    ##  3 Spf13  11206  2.20
-    ##  4 Spf45   8301  2.54
-    ##  5 Spf43  10593  2.82
-    ##  6 Spf12  12873  2.97
-    ##  7 Spf26  14514  2.98
-    ##  8 Spf44  14800  4.45
-    ##  9 Spf18  17266  4.84
-    ## 10 Spf6   17206  4.98
-    ## # ... with 18 more rows
+    ## # A tibble: 48 x 4
+    ##    ind   nsites depth Sex   
+    ##    <chr>  <dbl> <dbl> <chr> 
+    ##  1 Spf42   2386  1.75 Female
+    ##  2 Spf14   7452  1.85 Female
+    ##  3 Spf13  11206  2.20 Female
+    ##  4 Spf45   8301  2.54 Female
+    ##  5 Spf43  10593  2.82 Female
+    ##  6 Spf12  12873  2.97 Female
+    ##  7 Spf26  14514  2.98 Female
+    ##  8 Spf44  14800  4.45 Female
+    ##  9 Spf18  17266  4.84 Female
+    ## 10 Spf18  17266  4.84 Female
+    ## # ... with 38 more rows
 
 ``` r
 ind_depth %>% arrange(desc(depth))
 ```
 
-    ## # A tibble: 28 x 3
-    ##    ind    nsites depth
-    ##    <chr>   <dbl> <dbl>
-    ##  1 Spm3    19007 157. 
-    ##  2 Spm4    19011 144. 
-    ##  3 Spm8    19004 139. 
-    ##  4 Spm16   18981 136. 
-    ##  5 Spm11   19080 129. 
-    ##  6 Spm10   19049 126. 
-    ##  7 Spm14   19089 109. 
-    ##  8 Spm1-3  19078 107. 
-    ##  9 Spm2    18843 107. 
-    ## 10 Spm7    18985  99.0
-    ## # ... with 18 more rows
+    ## # A tibble: 48 x 4
+    ##    ind   nsites depth Sex  
+    ##    <chr>  <dbl> <dbl> <chr>
+    ##  1 Spm3   19007  157. Male 
+    ##  2 Spm3   19007  157. Male 
+    ##  3 Spm4   19011  144. Male 
+    ##  4 Spm4   19011  144. Male 
+    ##  5 Spm8   19004  139. Male 
+    ##  6 Spm8   19004  139. Male 
+    ##  7 Spm16  18981  136. Male 
+    ##  8 Spm16  18981  136. Male 
+    ##  9 Spm11  19080  129. Male 
+    ## 10 Spm11  19080  129. Male 
+    ## # ... with 38 more rows
 
 ``` r
-d <- ggplot(ind_depth, aes(depth)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = .3) + ylab("# of Individuals") + xlab("Mean Depth") + theme_classic() + coord_cartesian(expand=F)
+d <- ggplot(ind_depth, aes(depth,fill=Sex)) + geom_histogram(colour = "black", alpha = .3) + ylab("# of Individuals") + xlab("Mean Depth") + theme_classic() + coord_cartesian(expand=F)
 
 d
 ```

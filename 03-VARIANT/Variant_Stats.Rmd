@@ -94,11 +94,13 @@ hwe
 ```{r Missing_Individuals}
 ind_miss  <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.imiss", delim = "\t",
                         col_names = c("ind", "ndata", "nfiltered", "nmiss", "fmiss"), skip = 1)
+meta <- read.delim("../meta/Sp_Radseq_Files_Guide.txt") %>% select(Urchin, Sex)
+ind_miss_join <- left_join(ind_miss,meta,by=c("ind"="Urchin"))
 
 ind_miss %>% arrange(desc(fmiss))
 
 # Focus on the fmiss column telling us the proportion missing
-s <- ggplot(ind_miss, aes(fmiss)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = 0.3) + theme_classic() + 
+s <- ggplot(ind_miss_join, aes(fmiss,fill=Sex)) + geom_histogram(colour = "black", alpha = 0.3) + theme_classic() + 
   ylab("# of Individuals") + xlab("Fraction Genotypes Missing")  + coord_cartesian(expand=F)
 
 high_missing<-ind_miss %>%
@@ -114,12 +116,12 @@ s
 
 ```{r Individual_Depth}
 ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.idepth", delim = "\t",
-                        col_names = c("ind", "nsites", "depth"), skip = 1) 
+                        col_names = c("ind", "nsites", "depth"), skip = 1) %>% left_join(.,meta,by=c("ind"="Urchin"))
 
 ind_depth %>% arrange(depth)
 ind_depth %>% arrange(desc(depth))
 
-d <- ggplot(ind_depth, aes(depth)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = .3) + ylab("# of Individuals") + xlab("Mean Depth") + theme_classic() + coord_cartesian(expand=F)
+d <- ggplot(ind_depth, aes(depth,fill=Sex)) + geom_histogram(colour = "black", alpha = .3) + ylab("# of Individuals") + xlab("Mean Depth") + theme_classic() + coord_cartesian(expand=F)
 
 d
 ```
