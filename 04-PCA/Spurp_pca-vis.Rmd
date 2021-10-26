@@ -1,0 +1,71 @@
+---
+title: "Landscape Genomics PCA Analysis"
+author: "Gabriel Barrett"
+date: "9/17/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(root.dir = "D:/Puritz_Lab/Spurp_SexDetermination_RAD/04-PCA")
+
+knitr::opts_chunk$set(fig.path = "D:/Puritz_Lab/Spurp_SexDetermination_RAD/04-PCA/PLOTS/")
+
+library(tidyverse)
+library(ggplot2)
+library(dbplyr)
+library(ggpubr)
+```
+
+## PCA Analysis From Plink
+
+```{r Data Wrangling}
+#load eigenvectors/values 
+pca <- read.delim("Spurp.eigenvec", header = FALSE, sep = " ")
+eigenval <- scan("Spurp.eigenval")
+#remove the first column since it's repeated twice
+pca <- pca[,-1]
+#name the first column indv
+names(pca)[1] <- "ind"
+#name 2nd to number of columns in pca as PC 1 to 20
+names(pca)[2:ncol(pca)] <- paste0("PC",1:(ncol(pca)-1))
+meta <- read.delim("../meta/Sp_Radseq_Files_Guide.txt") %>% select(Urchin, Sex)
+
+df <- left_join(pca,meta,by=c("ind"="Urchin"))
+
+```
+ 
+
+```{r Variance Explained}
+pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+a <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")
+a + ylab("Percentage variance explained") + theme_classic()
+```
+
+```{r PCA-1, fig.width=7, fig.height=7}
+library(ggsci)
+library(viridis)
+
+ggplot(df, aes(PC5, PC4, color=Sex)) + geom_point(size = 3, alpha = .875) + 
+  coord_equal() + 
+  xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) + 
+  labs(colour = "") + #stat_ellipse(aes(group = reg)) +
+  #annotate("text", x = -0.05, y = .0045, label = paste0("PC1 (", signif(pve$pve[1], 3), "%)"),size=4.95) +
+  #annotate("text", x = -.0045, y = -.045, label = paste0("PC2 (", signif(pve$pve[2], 3), "%)"), angle = 90,size=4.95) +
+  #scale_color_igv(breaks = c("up","down","lower")) + 
+  geom_hline(yintercept=0, linetype="longdash") + geom_vline(xintercept=0, linetype="dotdash") +
+  theme(
+    panel.grid = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.background = element_blank(),
+    legend.key = element_rect(fill = "white", colour = "black"),
+    legend.position = c(.7,.9)
+  ) + 
+  guides(fill = guide_legend(override.aes = list(linetype = 0)),
+         color = guide_legend(override.aes = list(linetype = 0)))
+
+#ggsave("LG.snps1.FFP5.MAF.01.HWE.01.MISS.65.MD.69.PCA.png",last_plot(),device="png")
+```
