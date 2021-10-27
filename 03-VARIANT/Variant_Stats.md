@@ -186,7 +186,7 @@ hwe
 Stats
 
 ``` r
-ind_miss  <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.imiss", delim = "\t",
+ind_miss  <- read_delim("STATS/Spurp.minQ20.minGQ20.mac3.miss1.snps.ri.imiss", delim = "\t",
                         col_names = c("ind", "ndata", "nfiltered", "nmiss", "fmiss"), skip = 1)
 ```
 
@@ -210,16 +210,16 @@ ind_miss %>% arrange(desc(fmiss))
     ## # A tibble: 28 x 5
     ##    ind   ndata nfiltered nmiss fmiss
     ##    <chr> <dbl>     <dbl> <dbl> <dbl>
-    ##  1 Spf42 19186         0 16800 0.876
-    ##  2 Spf14 19186         0 11734 0.612
-    ##  3 Spf45 19186         0 10885 0.567
-    ##  4 Spf43 19186         0  8593 0.448
-    ##  5 Spf13 19186         0  7980 0.416
-    ##  6 Spf12 19186         0  6313 0.329
-    ##  7 Spf26 19186         0  4672 0.244
-    ##  8 Spf44 19186         0  4386 0.229
-    ##  9 Spf6  19186         0  1980 0.103
-    ## 10 Spf18 19186         0  1920 0.100
+    ##  1 Spf42 10401         0  9113 0.876
+    ##  2 Spf14 10401         0  6618 0.636
+    ##  3 Spf45 10401         0  6222 0.598
+    ##  4 Spf43 10401         0  4941 0.475
+    ##  5 Spf13 10401         0  4629 0.445
+    ##  6 Spf12 10401         0  3665 0.352
+    ##  7 Spf26 10401         0  2775 0.267
+    ##  8 Spf44 10401         0  2482 0.239
+    ##  9 Spf6  10401         0  1217 0.117
+    ## 10 Spf18 10401         0  1184 0.114
     ## # ... with 18 more rows
 
 ``` r
@@ -294,7 +294,7 @@ Spf45
 
 <td style="text-align:right;">
 
-19186
+10401
 
 </td>
 
@@ -306,13 +306,13 @@ Spf45
 
 <td style="text-align:right;">
 
-10885
+6222
 
 </td>
 
 <td style="text-align:right;">
 
-0.567341
+0.598212
 
 </td>
 
@@ -328,7 +328,7 @@ Spf14
 
 <td style="text-align:right;">
 
-19186
+10401
 
 </td>
 
@@ -340,13 +340,13 @@ Spf14
 
 <td style="text-align:right;">
 
-11734
+6618
 
 </td>
 
 <td style="text-align:right;">
 
-0.611592
+0.636285
 
 </td>
 
@@ -362,7 +362,7 @@ Spf42
 
 <td style="text-align:right;">
 
-19186
+10401
 
 </td>
 
@@ -374,13 +374,13 @@ Spf42
 
 <td style="text-align:right;">
 
-16800
+9113
 
 </td>
 
 <td style="text-align:right;">
 
-0.875638
+0.876166
 
 </td>
 
@@ -399,7 +399,7 @@ s
 ![](PLOTS/Missing_Individuals-1.png)<!-- -->
 
 ``` r
-ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.idepth", delim = "\t",
+ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.mac3.miss1.snps.ri.idepth", delim = "\t",
                         col_names = c("ind", "nsites", "depth"), skip = 1) %>% left_join(.,meta,by=c("ind"="Urchin"))
 ```
 
@@ -418,16 +418,16 @@ ind_depth %>% arrange(depth)
     ## # A tibble: 48 x 4
     ##    ind   nsites depth Sex   
     ##    <chr>  <dbl> <dbl> <chr> 
-    ##  1 Spf42   2386  1.75 Female
-    ##  2 Spf14   7452  1.85 Female
-    ##  3 Spf13  11206  2.20 Female
-    ##  4 Spf45   8301  2.54 Female
-    ##  5 Spf43  10593  2.82 Female
-    ##  6 Spf12  12873  2.97 Female
-    ##  7 Spf26  14514  2.98 Female
-    ##  8 Spf44  14800  4.45 Female
-    ##  9 Spf18  17266  4.84 Female
-    ## 10 Spf18  17266  4.84 Female
+    ##  1 Spf14   3783  1.95 Female
+    ##  2 Spf13   5772  2.18 Female
+    ##  3 Spf26   7626  3.07 Female
+    ##  4 Spf12   6736  4.06 Female
+    ##  5 Spf18   9217  4.81 Female
+    ##  6 Spf18   9217  4.81 Female
+    ##  7 Spf25   9329  5.17 Female
+    ##  8 Spf25   9329  5.17 Female
+    ##  9 Spf6    9184  5.47 Female
+    ## 10 Spf6    9184  5.47 Female
     ## # ... with 38 more rows
 
 ``` r
@@ -437,16 +437,16 @@ ind_depth %>% arrange(desc(depth))
     ## # A tibble: 48 x 4
     ##    ind   nsites depth Sex  
     ##    <chr>  <dbl> <dbl> <chr>
-    ##  1 Spm3   19007  157. Male 
-    ##  2 Spm3   19007  157. Male 
-    ##  3 Spm4   19011  144. Male 
-    ##  4 Spm4   19011  144. Male 
-    ##  5 Spm8   19004  139. Male 
-    ##  6 Spm8   19004  139. Male 
-    ##  7 Spm16  18981  136. Male 
-    ##  8 Spm16  18981  136. Male 
-    ##  9 Spm11  19080  129. Male 
-    ## 10 Spm11  19080  129. Male 
+    ##  1 Spm3   10275  142. Male 
+    ##  2 Spm3   10275  142. Male 
+    ##  3 Spm4   10253  130. Male 
+    ##  4 Spm4   10253  130. Male 
+    ##  5 Spm8   10271  124. Male 
+    ##  6 Spm8   10271  124. Male 
+    ##  7 Spm16  10286  123. Male 
+    ##  8 Spm16  10286  123. Male 
+    ##  9 Spm11  10327  117. Male 
+    ## 10 Spm11  10327  117. Male 
     ## # ... with 38 more rows
 
 ``` r

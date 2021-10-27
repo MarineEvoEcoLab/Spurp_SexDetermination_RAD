@@ -92,7 +92,7 @@ hwe
 ## Individual Stats
 
 ```{r Missing_Individuals}
-ind_miss  <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.imiss", delim = "\t",
+ind_miss  <- read_delim("STATS/Spurp.minQ20.minGQ20.mac3.miss1.snps.ri.imiss", delim = "\t",
                         col_names = c("ind", "ndata", "nfiltered", "nmiss", "fmiss"), skip = 1)
 meta <- read.delim("../meta/Sp_Radseq_Files_Guide.txt") %>% select(Urchin, Sex)
 ind_miss_join <- left_join(ind_miss,meta,by=c("ind"="Urchin"))
@@ -115,7 +115,7 @@ s
 
 
 ```{r Individual_Depth}
-ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.minDP40.maxDP166.miss1.snps.ri.idepth", delim = "\t",
+ind_depth <- read_delim("STATS/Spurp.minQ20.minGQ20.mac3.miss1.snps.ri.idepth", delim = "\t",
                         col_names = c("ind", "nsites", "depth"), skip = 1) %>% left_join(.,meta,by=c("ind"="Urchin"))
 
 ind_depth %>% arrange(depth)
