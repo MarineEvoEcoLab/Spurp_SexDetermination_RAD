@@ -156,7 +156,7 @@ $PROG/vcftools --vcf $F3 --remove-indels --recode --recode-INFO-all --stdout > $
 <img src="03-VARIANT/PLOTS/Missing_Individuals-1.png" width = "45%">
 </p>
 
-**Figure 1.** Distribution of data for individual missingness and mean-depth
+**Figure 1.** Distribution of data for individual missingness and mean-depth from Spurp.minQ20.minGQ20.mac3.miss1.snps.ri.vcf (~10,000 SNPs)
 
 <p align="center">
 <img src="04-PCA/PLOTS/PCA-1-1.png" width = "55%">
