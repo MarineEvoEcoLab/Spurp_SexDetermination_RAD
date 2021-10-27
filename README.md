@@ -163,7 +163,7 @@ $PROG/vcftools --vcf $F3 --remove-indels --recode --recode-INFO-all --stdout > $
 </p>
 
 
-**Figure 2.** principal component analysis via plink ~6% variance explained on both axis
+**Figure 2.** principal component analysis via plink ~6% variance explained on both axis (PC1 vs. PC3)
 
 ## Presence & Absence w/ Sex
 
