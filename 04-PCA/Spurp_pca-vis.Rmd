@@ -22,8 +22,8 @@ library(ggpubr)
 
 ```{r Data Wrangling}
 #load eigenvectors/values 
-pca <- read.delim("Spurp.eigenvec", header = FALSE, sep = " ")
-eigenval <- scan("Spurp.eigenval")
+pca <- read.delim("Spurp.minQ20.minGQ20.mac4.miss99.eigenvec", header = FALSE, sep = " ")
+eigenval <- scan("Spurp.minQ20.minGQ20.mac4.miss99.eigenval")
 #remove the first column since it's repeated twice
 pca <- pca[,-1]
 #name the first column indv
@@ -47,7 +47,7 @@ a + ylab("Percentage variance explained") + theme_classic()
 library(ggsci)
 library(viridis)
 
-ggplot(df, aes(PC1, PC2, color=Sex)) + geom_point(size = 3, alpha = .875) + 
+ggplot(df, aes(PC2, PC4, color=Sex)) + geom_point(size = 3, alpha = .875) + 
   coord_equal() + 
   xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) + 
   labs(colour = "") + #stat_ellipse(aes(group = reg)) +
