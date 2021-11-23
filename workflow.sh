@@ -3,7 +3,7 @@ PROG=/usr/local/bin
 
 ########################
 #### Copy files W/ meta data associated ---------------------------------------------------------
-
+########################
 # write unique values from c-4 into txt
 awk '!a[$4]++  {print $4}' ./meta/Sp_Radseq_Files_Guide.txt > sample_list.txt
 
@@ -22,8 +22,8 @@ done
 rm sample_list.txt
 
 ########################
-####### Quality Control -------------------------------------------------------------------------
-
+####### Process Raw Reads -------------------------------------------------------------------------
+########################
 INDIR=/home/Shared_Data/Spurp_RAD/raw_reads_3
 OUTDIR=/home/Shared_Data/Spurp_RAD/01-PROCESS
 for i in ls $INDIR/*_1.fq.gz;
@@ -42,9 +42,13 @@ do
         /usr/local/bin/fastp -i $fq1 -I $fq2 -o $FQ1 -O $FQ2 --correction -h ${OUTDIR}/$OUTPUT.html &> ${OUTDIR}/$OUTPUT.log
 
 done
-########################
-###### Reference Genome -------------------------------------------------------------------------
-# lva chromosomal assembly
+##################################
+# Reference Genome Pipeline      # -----------------------------------------------------------
+# lva chromosomal assembly       # -----------------------------------------------------------
+##################################
+
+# lva = ~8% mapping rate
+# sp5 = ~95% 
 
 REFDIR=/home/Shared_Data/Spurp_RAD/ref_genome/L_variegatus
 REF=${REFDIR}/Lva_genome.FINAL.from_draft.fasta
@@ -129,7 +133,7 @@ lva_REF=/home/Shared_Data/Spurp_RAD/ref_genome/L_variegatus/Lva_genome.FINAL.fro
 
 ########################
 ###### Variant Filtering -----------------------------------------------------------------------------
-
+########################
 
 # Setup FILES
 FILE=${DIR}/Spurp.vcf
@@ -155,7 +159,7 @@ sh filter_miss_by_pop.sh $FILTER1 popmap.txt 1 .95 $FILTER2
 
 #####################
 ###### Principal component analysis ------------------------------------------------------------------
-
+#####################
 DIR=/home/Shared_Data/Spurp_RAD
 
 # v1.07 ------
@@ -177,11 +181,11 @@ $plink --file $OUTFILE --extract ${OUTFILE}.prune.in \
 
 ####################
 ###### Plink case/control association ------------------------------------------------------------
-
+####################
 SDIR=${DIR}/04-PLINK
 mkdir $SDIR
 
-##### Quantitative Trait Interaction ---------------
+
 # input files
 PED=$DIR/04-PCA/Spurp.minQ20.minGQ20.mac4.miss99
 OUT=$SDIR/Spurp.minQ20.minGQ20.mac4.miss99
@@ -194,22 +198,61 @@ sed -e 's/Female/1/' -e 's/Male/2/' -e '1,/Urchin/ s/Urchin/FID/' -e 's/Urchin/I
 # logistic
 plink --file $PED --pfilter .01 --logistic \
 --pheno $SDIR/pheno.dat --pheno-name Sex --out $OUT --noweb --allow-extra-chr --allow-no-sex
-#plink --file $PED --assoc --out $OUT --noweb
-# --pfilter # output pvalues less than number
+
 # filter sig. and output ID
 #awk '{if( $9 < .01) {print $2}}' | cut -d : $OUT.assoc > sig_snps.txt
 awk '{if( $9 < .01) {print $2}}' $OUT.assoc.logistic | sed 's/:/\t/' > sig_snps.txt
+
 # sig SNP df w/ annotations
 bcftools query -T sig_snps.txt --format '%CHROM\t%POS\t%ANN\t[%SAMPLE=%GT ]\n' ../03-VARIANT/Spurp.minQ20.minGQ20.mac4.miss95.snps.ri.F.ann.vcf > sig_snps_df.txt
-NUMCOL=$(head -1 fisher_snps.txt | grep -o "|" | wc -l)
+#NUMCOL=$(head -1 fisher_snps.txt | grep -o "|" | wc -l)
 
 
+#######################
+# De-Nove Assembly    # -----------------------------------------------------------------------
+# Rainbow 2.0.4       # -----------------------------------------------------------------------
+#######################
+
+# Assemble based on Sex (M,F)
+
+DIR=/home/Shared_Data/Spurp_RAD
+OUT=/home/Shared_Data/Spurp_RAD/02-RAINBOW
+META=/home/Shared_Data/Spurp_RAD/meta/Sp_Radseq_Files_Guide.txt
+mkdir $OUT
+
+# two files with individuals grouped by sex
+awk -F"\t" '{if ($2 == "Male") print $3}' $META | uniq | sed "s,^,$DIR/01-PROCESS/," > Males.txt
+awk -F"\t" '{if ($2 == "Female") print $3}' $META | uniq | sed "s,^,$DIR/01-PROCESS/," > Females.txt
 
 
+for sex in Males Females;
+do
+        cat ${sex}.txt | while read ind;
+        do
+                FQ1=${ind}.out_1.fq.gz
+                FQ2=$(echo $FQ1 | sed -e 's/1.fq.gz/2.fq.gz/')
+                echo "Read 1: $FQ1 Read 2: $FQ2"
+                rainbow cluster -1 $FQ1 -2 $FQ2 -m 4 -e 2000 > $OUT/rbcluster_$sex.out 2> $OUT/rbcluster_$sex.log
+        done
+
+        rainbow div -i $OUT/rbcluster_$sex.out -o $OUT/rbdiv_$sex.out -k 7 -K 10 -f .5 2> $OUT/rbdiv_$sex.log
+
+        rainbow merge -i $OUT/rbdiv_$sex.out -o $OUT/rbmerge_$sex.out -a -r 2 -N1000 -R1000 -l 20 -f .9 2> $OUT/rbmerge_$sex.log
+        /usr/local/bin/select_best_rbcontig_plus_read1.pl
+        PROG=/usr/local/bin
+        
+	# write best contigs into fasta format
+	$PROG/select_best_rbcontig_plus_read1.pl $OUT/rbmerge_$sex.out $OUT/rbdiv_$sex.out > $OUT/rainbow_$sex.fasta
+
+done
 
 
+############################################
+# Align reads to reference of opposite sex # ------------------------------------------------
+############################################
 
+for sex in Males Females;
+do
 
-
-
+done
 
