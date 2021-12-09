@@ -59,9 +59,10 @@ Performed a logistical regression on individual genotypes using Sambada
 **Figure 3.** heatmap showing association (presence/absence) of marker (read based on minimum depth threshold). R 
 circlize package showing significant levels in sex bias on the top track and association on the bottom track. 
 
-Some tuning is available
-
 > #### Fine Tuning
 > - distrib --min-depth <threshold>
 > - extract a subset and cluster markers based on depth -> radsex_markers_depth() *subset* command
 > - mapping quality threshold  
+
+
+## de-novo
