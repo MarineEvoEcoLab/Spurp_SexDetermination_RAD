@@ -49,7 +49,7 @@ Performed a logistical regression on individual genotypes using Sambada
 
 ''plink --assoc fisher'' using sex as the encoded phenotype.
 
-## radsex
+## Radsex
 
 <p align="center">
 <img src="02-RADSEX/distribution.png" width = "45%">
@@ -65,4 +65,4 @@ circlize package showing significant levels in sex bias on the top track and ass
 > - mapping quality threshold  
 
 
-## de-novo
+## De-Novo
