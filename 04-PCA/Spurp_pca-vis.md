@@ -40,7 +40,7 @@ library(viridis)
     ## Warning: package 'viridisLite' was built under R version 4.0.5
 
 ``` r
-ggplot(df, aes(PC2, PC4, color=Sex)) + geom_point(size = 3, alpha = .875) + 
+ggplot(df, aes(PC1, PC2, color=Sex)) + geom_point(size = 3, alpha = .875) + 
   coord_equal() + 
   xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) + 
   labs(colour = "") + #stat_ellipse(aes(group = reg)) +
