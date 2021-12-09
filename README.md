@@ -39,7 +39,7 @@ Differences in sequencing depth makes thresholds hard to determine, min/maxDP fi
 <img src="04-PCA/PLOTS/PCA-1-1.png" width = "55%">
 </p>
 
-**Figure 2.** principal component analysis via plink ~6% variance explained on both axis (PC1 vs. PC3) (~1200 SNPs)
+**Figure 2.** principal component analysis via plink ~6% variance explained on both axis (PC1 vs. PC2) (~2103 SNPs)
 
 ## Presence/Absence
 
@@ -51,3 +51,17 @@ Performed a logistical regression on individual genotypes using Sambada
 
 ## radsex
 
+<p align="center">
+<img src="02-RADSEX/distribution.png" width = "45%">
+<img src="02-RADSEX/mapping_circos.png" width = "45%">
+</p>
+
+**Figure 3.** heatmap showing association (presence/absence) of marker (read based on minimum depth threshold). R 
+circlize package showing significant levels in sex bias on the top track and association on the bottom track. 
+
+Some tuning is available
+
+> #### Fine Tuning
+> - distrib --min-depth <threshold>
+> - extract a subset and cluster markers based on depth -> radsex_markers_depth() *subset* command
+> - mapping quality threshold  
