@@ -253,6 +253,68 @@ done
 
 for sex in Males Females;
 do
+        # Align Reads to Reference Gen. of Opposite sex
+        cat ${sex}.txt | while read ind;
+        do
 
+                FQ1=${ind}.out_1.fq.gz
+                FQ2=${ind}.out_2.fq.gz
+                # Prefix (ID)
+                SAM=$(basename $FQ1 .out_1.fq.gz)
+                BAM=$OUT/${SAM}.bam
+                #echo $FQ1 $FQ2 $SAM $BAM
+
+                # align to reference of opposite sex
+                if [[ "$sex" == "Males" ]]; then
+                        OPP=$(echo $sex | sed 's/Males/Females/')
+                elif [[ "$sex" == "Females" ]]; then
+                        OPP=$(echo $sex | sed 's/Females/Males/')
+                fi
+
+                INDEX=$OUT/rainbow_${OPP}
+                #echo $ind $OPP
+                RG=$(echo \@RG\\tID:$SAM\\tSM:$SAM)
+
+                # Align Reads
+                #bwa mem -t 20 -R $RG $INDEX $FQ1 $FQ2 | \
+                #$PROG/samtools view -S -h -q 10 - | \
+                #$PROG/samtools sort - > $BAM
+                #$PROG/samtools index $BAM
+                # remove pre-existant avg. bamstats file
+                rm ${OUT}/${sex}_bamstats.txt
+
+                # Get Alignment Statistics
+                MM=$($PROG/samtools flagstat $BAM | grep -E 'mapped \(|properly' | cut -f1 -d '+' | tr -d '\n')
+                CM=$($PROG/samtools idxstats $BAM | mawk '$3 > 0' | wc -l)
+                CC=$($PROG/samtools idxstats $BAM | mawk '{ sum += $3; n++ } END { if (n > 0) print sum / n; }')
+                DD=$($PROG/samtools idxstats $BAM | mawk '$3 >0' | mawk '{ sum += $3; n++ } END { if (n > 0) print sum / n; }')
+                BM=$($PROG/samtools flagstat $BAM | grep mapQ | cut -f1 -d ' ')
+                MR=$($PROG/samtools flagstat $BAM | grep "mapped (" | awk '{print $5}' | cut -b 2-5)
+                echo -e "$SAM\t$MM\t$CM\t$CC\t$DD\t$BM\t$MR" >> ${OUT}/${sex}_bamstats.txt
+
+                #$PROG/samtools coverage $BAM > $OUT/$SAM.cov
+        done
 done
 
+# Calculate averages across sex
+        # write headers
+echo "read coverage meandepth meanbaseq meanmapq" > $OUT/avg_female.cov
+        # skip first line of female bam files
+
+        # stache coverage from each bam file and calculate average for each row
+awk '{
+        c[FNR]=$1;a[FNR]+=$6;d[FNR]+=$7;e[FNR]+=$8;f[FNR]+=$9;b[FNR]++;
+}END{
+        # skip the first line by setting i = 2
+        for(i=2;i<=FNR;i++)
+        print c[i],a[i]/b[i],d[i]/b[i],e[i]/b[i],f[i]/b[i]
+}' $OUT/*f*.cov >> $OUT/avg_female.cov
+
+        # repeat for males
+echo "read coverage meandepth meanbaseq meanmapq" > $OUT/avg_male.cov
+awk '{
+        c[FNR]=$1;a[FNR]+=$6;d[FNR]+=$7;e[FNR]+=$8;f[FNR]+=$9;b[FNR]++;
+}END{
+        for(i=2;i<=FNR;i++)
+        print c[i],a[i]/b[i],d[i]/b[i],e[i]/b[i],f[i]/b[i]
+}' $OUT/*m*.cov >> $OUT/avg_male.cov
