@@ -64,5 +64,54 @@ circlize package showing significant levels in sex bias on the top track and ass
 > - extract a subset and cluster markers based on depth -> radsex_markers_depth() *subset* command
 > - mapping quality threshold  
 
-
 ## De-Novo
+
+Constructed a sex specific reference genome and aligned reads based on opposing sex. 
+
+```bash
+#!/bin/local/env bash
+PROG=/usr/local/bin
+DIR=/home/Shared_Data/Spurp_RAD
+
+rm avg_depth.txt
+for i in *bam;
+do
+        AVG_DEPTH=$($PROG/samtools depth -Q 40 $i | awk '{sum+=$3} END {print sum/NR}')
+        SD_DEPTH=$($PROG/samtools depth -Q 40 $i | awk '{sum+=$3;a[NR]=$3} END {for (i in a)y+=(a[i]-(sum/NR))^2;print sqrt(y/(NR-1))}')
+        echo -e "$i\t$AVG_DEPTH\t$SD_DEPTH" >> avg_depth.txt
+done
+```
+
+|ID |avg depth |sd depth |
+|---|----------|---------|
+|Spf12.bam|1.85434|23.9615|
+|Spf13.bam|1.51986|1.47941|
+|Spf14.bam|1.43037|2.53296|
+|Spf17.bam|5.69743|8.33223|
+|Spf18.bam|2.18523|6.11296|
+|Spf24.bam|3.23958|5.97413|
+|Spf25.bam|2.30345|4.6854|
+|Spf26.bam|1.76948|4.92149|
+|Spf28.bam|13.9681|23.0103|
+|Spf29-3.bam|3.13654|4.26893|
+|Spf30.bam|9.09218|19.4664|
+|Spf32.bam|15.6657|26.2012|
+|Spf35.bam|4.76147|6.8294|
+|Spf42.bam|2.51205|55.2533|
+|Spf43.bam|2.40871|69.5291|
+|Spf44.bam|2.55186|59.204|
+|Spf45.bam|2.52544|80.0525|
+|Spf6.bam|2.27803|14.7091|
+|Spm10.bam|52.8826|142.069|
+|Spm11.bam|50.7519|144.781|
+|Spm1-3.bam|43.3796|127.697|
+|Spm14.bam|44.7545|129.224|
+|Spm16.bam|48.8474|133.306|
+|Spm2.bam|44.0387|124.847|
+|Spm3.bam|58.2594|161.314|
+|Spm4.bam|55.4492|154.455|
+|Spm7.bam|41.4106|120.693|
+|Spm8.bam|50.9566|144.762|
+
+
+$$\int_\Omega \nabla u \cdot \nabla v~dx = \int_\Omega fv~dx$$
