@@ -114,4 +114,9 @@ done
 |Spm8.bam|50.9566|144.762|
 
 
-$$\int_\Omega \nabla u \cdot \nabla v~dx = \int_\Omega fv~dx$$
+> #### Thoughts/Concerns
+> Inconsistent read depth between sexes makes accurate comparison for sex bias reads difficult. 
+> subset female individuals: Spf28, Spf30, and Spf32 have depths highest average depth
+>> Explore genotypes like reference pipepline
+> resequence female individuals to match male libraries (or include 5 males vs 5 females in one lane with high coverage for confident sex bias calling)
+
