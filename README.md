@@ -9,7 +9,7 @@ Extracted ID's from meta data file.
 
 Reads were processed using fastp and found to already have had been trimmed for barcodes.
 
-## Alignment
+## Reference Alignment
 
 Spur_5.0 scaffold assembly: GCA_000002235.4 
 	Mapping Rate ~98%
