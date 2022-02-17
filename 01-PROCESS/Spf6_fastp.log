@@ -1,0 +1,49 @@
+Detecting adapter sequence for read1...
+TGCAGTGCTAAATATTAGACAATCAGAAAAATCCGGATCTAGCAAAAAAAGTATAAAGGA
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+Read1 before filtering:
+total reads: 480307
+total bases: 41306402
+Q20 bases: 41306402(100%)
+Q30 bases: 41306402(100%)
+
+Read2 before filtering:
+total reads: 480307
+total bases: 43227630
+Q20 bases: 43227630(100%)
+Q30 bases: 43227630(100%)
+
+Read1 after filtering:
+total reads: 476414
+total bases: 40940632
+Q20 bases: 40940632(100%)
+Q30 bases: 40940632(100%)
+
+Read2 aftering filtering:
+total reads: 476414
+total bases: 42847248
+Q20 bases: 42847248(100%)
+Q30 bases: 42847248(100%)
+
+Filtering result:
+reads passed filter: 952828
+reads failed due to low quality: 0
+reads failed due to too many N: 398
+reads failed due to too short: 7388
+reads with adapter trimmed: 6704
+bases trimmed due to adapters: 378668
+reads corrected by overlap analysis: 0
+bases corrected by overlap analysis: 0
+
+Duplication rate: 17.2854%
+
+Insert size peak (evaluated by paired-end reads): 86
+
+JSON report: fastp.json
+HTML report: /home/Shared_Data/Spurp_RAD/01-PROCESS/Spf6.html
+
+/usr/local/bin/fastp -i /home/Shared_Data/Spurp_RAD/raw_reads_3/Spf6_1.fq.gz -I /home/Shared_Data/Spurp_RAD/raw_reads_3/Spf6_2.fq.gz -o /home/Shared_Data/Spurp_RAD/01-PROCESS/Spf6.out_1.fq.gz -O /home/Shared_Data/Spurp_RAD/01-PROCESS/Spf6.out_2.fq.gz --detect_adapter_for_pe --correction -h /home/Shared_Data/Spurp_RAD/01-PROCESS/Spf6.html 
+fastp v0.20.0, time used: 11 seconds

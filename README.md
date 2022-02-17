@@ -1,55 +1,48 @@
 # Spurp_SexDetermination_RAD
-Bioinformatic WorkFlow used to find sex specific genotypes within Spurp using RAD seq
+Bioinformatic WorkFlow used to find sex specific reads/genotypes within Spurp using RADseq
 
 Purple Sea Urchin: 10 M, 18 F
 
-Extracted ID's from meta data file. 
+Extracted ID's from meta data file.
 
+```bash
+# write unique values from c-4 into txt
+awk '!a[$4]++  {print $4}' ./meta/Sp_Radseq_Files_Guide.txt > sample_list.txt
+
+# start from line 2
+DATA=$(tail --line=+2 sample_list.txt)
+
+# copy into raw_reads_3
+for i in $DATA;
+do
+	for pair in {1..2};
+	do
+		cp ./archive/"${i}"/*L3_**"${pair}".fq.gz ./raw_reads/"${i}"_"${pair}".fq.gz
+
+	done
+done
+rm sample_list.txt
+```
+---
 ## Process Reads
 
-Reads were processed using fastp and found to already have had been trimmed for barcodes.
+Reads were processed using fastp. Some individuals had no adapters, some had 1 adapter on the forward read, and some had adapters on both forward and reverse reads. All males had no adapters discovered by fastp. Might be worth specifying adapters or exploring this further, although I am unsure as to its impact given the good performance of aligned and variant filtering likely capturing these errors.
 
-## Reference Alignment
+Inconsistencies across sexes and individuals were observed.
 
-Spur_5.0 scaffold assembly: GCA_000002235.4 
-	Mapping Rate ~98%
-Lvar_3.0 chromosomal assembly: GCA_018143015.1 
-	Mapping Rate ~8%
+[fastp log example: Spf6](./01-PROCESS/Spf6_fastp.log)
 
-## Variant Calling
+[fastp log example: Spf18](./01-PROCESS/Spf18_fastp.log)
 
-Switched to locally installing via anaconda ``conda install -c bioconda freebayes/1.3.5``
+[fastp log example: Spm1-3](./01-PROCESS/Spm1-3_fastp.log)
 
-Succesfully genotyped ~30,000 sites
+See ./01-PROCESS directory for html reports on all individuals written by fastp
 
-## Variant Filtering
+---
 
-Sites were removed based on genotype quality, mapping quality, and missingness within Sex group (Male, Female).
+## RadSex
 
-Differences in sequencing depth makes thresholds hard to determine, min/maxDP filters produces high levels of missingness in Female samples.
-
-<p align="center">
-<img src="03-VARIANT/PLOTS/Individual_Depth-1.png" width = "45%">
-<img src="03-VARIANT/PLOTS/Missing_Individuals-1.png" width = "45%">
-</p>
-
-**Figure 1.** Distribution of data for individual missingness and mean-depth from Spurp.minQ20.minGQ20.mac3.miss1.snps.ri.vcf (~7,000 SNPs)
-
-<p align="center">
-<img src="04-PCA/PLOTS/PCA-1-1.png" width = "55%">
-</p>
-
-**Figure 2.** principal component analysis via plink ~6% variance explained on both axis (PC1 vs. PC2) (~2103 SNPs)
-
-## Presence/Absence
-
-Performed a logistical regression on individual genotypes using Sambada
-
-## Case/Control
-
-''plink --assoc fisher'' using sex as the encoded phenotype.
-
-## Radsex
+A de-novo and reference pipeline that investigates read depth bias based on sex. [RadSex GitHub](https://github.com/SexGenomicsToolkit/radsex)
 
 <p align="center">
 <img src="02-RADSEX/distribution.png" width = "45%">
@@ -64,9 +57,58 @@ circlize package showing significant levels in sex bias on the top track and ass
 > - extract a subset and cluster markers based on depth -> radsex_markers_depth() *subset* command
 > - mapping quality threshold  
 
+---
+
+## Reference
+
+### Reference Alignment results:
+
+Spur_5.0 scaffold assembly: GCA_000002235.4 
+	Mapping Rate ~98%
+
+Lvar_3.0 chromosomal assembly: GCA_018143015.1 
+	Mapping Rate ~8%
+
+### Variant Calling results:
+
+**Succesfully genotyped ~30,000 sites**
+
+## Variant Filtering
+
+Sites were removed based on genotype quality, mapping quality, and missingness within Sex group (Male, Female).
+
+Differences in sequencing depth makes thresholds hard to determine, min/maxDP filters produces high levels of missingness in Female samples.
+
+<p align="center">
+<img src="03-VARIANT/PLOTS/Individual_Depth-1.png" width = "45%">
+<img src="03-VARIANT/PLOTS/Missing_Individuals-1.png" width = "45%">
+</p>
+
+**Figure 1.** Distribution of data for individual missingness and mean-depth from Spurp.minQ20.minGQ20.mac3.miss1.snps.ri.vcf (~7,000 SNPs)
+
+Retained **23776** sites
+
+<p align="center">
+<img src="04-PCA/PLOTS/PCA-1-1.png" width = "55%">
+</p>
+
+**Figure 2.** principal component analysis via plink ~6% variance explained on both axis (PC1 vs. PC2) (~2103 SNPs)
+
+Genotypes from reads aligned to the reference genome lva were associated to sex (logistical regression (presence/absence) and fishers (case/control) (better for small sample sizes)).
+
+[Fisher Results: Genotypes](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_fish_geno.txt)
+
+[Fisher Results: SNPs Gene Region](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_fish_snps.txt)
+
+[Logistical Regression: Genotypes](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_log_geno.txt)
+
+[Logistical Regression: SNPs Gene Region](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_log_snps.txt)
+
+---
+
 ## De-Novo
 
-Constructed a sex specific reference genome and aligned reads based on opposing sex. 
+Constructed a sex specific reference genome and aligned reads based on opposing sex. In addition to this, constructed a full de-novo reference using both sexes to then conduct association analysis like in the reference pipeline. 
 
 ```bash
 #!/bin/local/env bash
@@ -113,10 +155,26 @@ done
 |Spm7.bam|41.4106|120.693|
 |Spm8.bam|50.9566|144.762|
 
+---
+### Non-Aligning Reads
+A de-novo reference was constructed for both sexes and reads from the opposite sex were aligned (male reads aligned to female de-novo reference). Reads that did not align for both sexes (read depth = 0) were evaluated further with blastx. **See ./02-READ_DEPTH** directory for results. 
 
-> #### Thoughts/Concerns
+[Male 0 depth reads](./03-READ_DEPTH/avg_male_0.annot.fa)
+
+[Female 0 depth reads](./03-READ_DEPTH/avg_female_0.annot.fa)
+
+---
+### Association from de-novo aligned reads
+
+Association analysis was conducted on **23775** high quality genotypes. 
+
+[Fisher Results: Genotypes](./04-PLINK/DE-NOVO/Spurp.minQ20.minGQ20.mac4.miss99_fish_geno.txt)
+
+[Logistical Regression: Genotypes](./04-PLINK/DE-NOVO/Spurp.minQ20.minGQ20.mac4.miss99_log_geno.txt)
+
+---
+
+> #### Concluding Thoughts/Concerns
 > - Inconsistent read depth between sexes makes accurate comparison for sex bias reads difficult. 
 > - subset female individuals: Spf28, Spf30, and Spf32 have depths highest average depth
->> - Explore genotypes like reference pipepline
 > - resequence female individuals to match male libraries (or include 5 males vs 5 females in one lane with high coverage for confident sex bias calling)
-
