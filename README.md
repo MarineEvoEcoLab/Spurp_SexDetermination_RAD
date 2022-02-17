@@ -1,7 +1,15 @@
+> #### Concluding Thoughts
+> - Inconsistent read depth between sexes makes accurate comparison for sex bias sites difficult. 
+>   - resequence female individuals to match male libraries (or include 5 males vs 5 females in one lane with high coverage for confident sex bias calling)
+> - Both Males and Females showed very similar alignment results [alignment results](./02-ALIGN/sp5_bam_stats.txt) . Even With a Male reference
+> - No clear genotype result where males are hetero and females are homo (XY/XX or ZZ/ZW) for both reference and de-novo pipelines
+> - Generated a list of contig ID's that were not aligned to by the opposite sex [Male list](03-READ_DEPTH/avg_female_0.annot.fa) / [Female list](03-READ_DEPTH/avg_female_0.annot.fa)
+
 # Spurp_SexDetermination_RAD
 Bioinformatic WorkFlow used to find sex specific reads/genotypes within Spurp using RADseq
 
 Purple Sea Urchin: 10 M, 18 F
+
 
 Extracted ID's from meta data file.
 
@@ -18,12 +26,10 @@ do
 	for pair in {1..2};
 	do
 		cp ./archive/"${i}"/*L3_**"${pair}".fq.gz ./raw_reads/"${i}"_"${pair}".fq.gz
-
 	done
 done
 rm sample_list.txt
 ```
-
 
 ## Process Reads
 
@@ -63,8 +69,8 @@ circlize package showing significant levels in sex bias on the top track and ass
 
 ### Reference Alignment results:
 
-Spur_5.0 scaffold assembly: GCA_000002235.4 
-	Mapping Rate ~98%
+Spur_5.0 scaffold assembly(Male): GCA_000002235.4 
+	Mapping Rate ~98% 
 
 Lvar_3.0 chromosomal assembly: GCA_018143015.1 
 	Mapping Rate ~8%
@@ -155,12 +161,12 @@ done
 |Spm8.bam|50.9566|144.762|
 
 
-### Non-Aligning Reads to opposite ses de-novo reference
+### Non-Aligning Reads to opposite sex de-novo reference
 A de-novo reference was constructed for both sexes and reads from the opposite sex were aligned (male reads aligned to female de-novo reference). Reads that did not align for both sexes (read depth = 0) were evaluated further with blastx. **See ./02-READ_DEPTH** directory for results. 
 
-[Male 0 depth reads](./03-READ_DEPTH/avg_male_0.annot.fa)
+[Male 0 depth contig](./03-READ_DEPTH/avg_male_0.annot.fa)
 
-[Female 0 depth reads](./03-READ_DEPTH/avg_female_0.annot.fa)
+[Female 0 depth contig](./03-READ_DEPTH/avg_female_0.annot.fa)
 
 
 ### Association with variants called from reads aligned to full de-novo reference
@@ -171,7 +177,4 @@ Association analysis was conducted on **23775** high quality genotypes.
 
 [Logistical Regression: Genotypes](./04-PLINK/DE-NOVO/Spurp.minQ20.minGQ20.mac4.miss99_log_geno.txt)
 
-> #### Concluding Thoughts/Concerns
-> - Inconsistent read depth between sexes makes accurate comparison for sex bias reads difficult. 
-> - subset female individuals: Spf28, Spf30, and Spf32 have depths highest average depth
-> - resequence female individuals to match male libraries (or include 5 males vs 5 females in one lane with high coverage for confident sex bias calling)
+
