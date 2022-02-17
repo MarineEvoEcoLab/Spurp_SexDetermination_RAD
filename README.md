@@ -23,7 +23,8 @@ do
 done
 rm sample_list.txt
 ```
----
+
+
 ## Process Reads
 
 Reads were processed using fastp. Some individuals had no adapters, some had 1 adapter on the forward read, and some had adapters on both forward and reverse reads. All males had no adapters discovered by fastp. Might be worth specifying adapters or exploring this further, although I am unsure as to its impact given the good performance of aligned and variant filtering likely capturing these errors.
@@ -38,7 +39,7 @@ Inconsistencies across sexes and individuals were observed.
 
 See ./01-PROCESS directory for html reports on all individuals written by fastp
 
----
+
 
 ## RadSex
 
@@ -57,7 +58,6 @@ circlize package showing significant levels in sex bias on the top track and ass
 > - extract a subset and cluster markers based on depth -> radsex_markers_depth() *subset* command
 > - mapping quality threshold  
 
----
 
 ## Reference
 
@@ -104,7 +104,6 @@ Genotypes from reads aligned to the reference genome lva were associated to sex 
 
 [Logistical Regression: SNPs Gene Region](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_log_snps.txt)
 
----
 
 ## De-Novo
 
@@ -155,7 +154,7 @@ done
 |Spm7.bam|41.4106|120.693|
 |Spm8.bam|50.9566|144.762|
 
----
+
 ### Non-Aligning Reads
 A de-novo reference was constructed for both sexes and reads from the opposite sex were aligned (male reads aligned to female de-novo reference). Reads that did not align for both sexes (read depth = 0) were evaluated further with blastx. **See ./02-READ_DEPTH** directory for results. 
 
@@ -163,7 +162,7 @@ A de-novo reference was constructed for both sexes and reads from the opposite s
 
 [Female 0 depth reads](./03-READ_DEPTH/avg_female_0.annot.fa)
 
----
+
 ### Association from de-novo aligned reads
 
 Association analysis was conducted on **23775** high quality genotypes. 
@@ -171,8 +170,6 @@ Association analysis was conducted on **23775** high quality genotypes.
 [Fisher Results: Genotypes](./04-PLINK/DE-NOVO/Spurp.minQ20.minGQ20.mac4.miss99_fish_geno.txt)
 
 [Logistical Regression: Genotypes](./04-PLINK/DE-NOVO/Spurp.minQ20.minGQ20.mac4.miss99_log_geno.txt)
-
----
 
 > #### Concluding Thoughts/Concerns
 > - Inconsistent read depth between sexes makes accurate comparison for sex bias reads difficult. 
