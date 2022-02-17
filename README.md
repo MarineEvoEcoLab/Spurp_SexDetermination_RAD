@@ -73,7 +73,7 @@ Lvar_3.0 chromosomal assembly: GCA_018143015.1
 
 **Succesfully genotyped ~30,000 sites**
 
-## Variant Filtering
+### Variant Filtering
 
 Sites were removed based on genotype quality, mapping quality, and missingness within Sex group (Male, Female).
 
@@ -94,6 +94,7 @@ Retained **23776** sites
 
 **Figure 2.** principal component analysis via plink ~6% variance explained on both axis (PC1 vs. PC2) (~2103 SNPs)
 
+### Associations
 Genotypes from reads aligned to the reference genome lva were associated to sex (logistical regression (presence/absence) and fishers (case/control) (better for small sample sizes)).
 
 [Fisher Results: Genotypes](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_fish_geno.txt)
@@ -103,7 +104,6 @@ Genotypes from reads aligned to the reference genome lva were associated to sex 
 [Logistical Regression: Genotypes](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_log_geno.txt)
 
 [Logistical Regression: SNPs Gene Region](./04-PLINK/REF/Spurp.minQ20.minGQ20.mac4.miss99_log_snps.txt)
-
 
 ## De-Novo
 
@@ -155,7 +155,7 @@ done
 |Spm8.bam|50.9566|144.762|
 
 
-### Non-Aligning Reads
+### Non-Aligning Reads to opposite ses de-novo reference
 A de-novo reference was constructed for both sexes and reads from the opposite sex were aligned (male reads aligned to female de-novo reference). Reads that did not align for both sexes (read depth = 0) were evaluated further with blastx. **See ./02-READ_DEPTH** directory for results. 
 
 [Male 0 depth reads](./03-READ_DEPTH/avg_male_0.annot.fa)
@@ -163,7 +163,7 @@ A de-novo reference was constructed for both sexes and reads from the opposite s
 [Female 0 depth reads](./03-READ_DEPTH/avg_female_0.annot.fa)
 
 
-### Association from de-novo aligned reads
+### Association with variants called from reads aligned to full de-novo reference
 
 Association analysis was conducted on **23775** high quality genotypes. 
 
