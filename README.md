@@ -1,9 +1,9 @@
 > #### Concluding Thoughts
+> - Both Males and Females showed very similar alignment results [alignment results](./02-ALIGN/sp5_bam_stats.txt) . Even With a Male reference
+> - No clear genotype association result where males are hetero and females are homo (XY/XX or ZZ/ZW) for both reference and de-novo pipelines
+> - Generated a list of contig ID's that had no reads a sex align to the de-novo reference of the opposite sex [Male list](03-READ_DEPTH/avg_female_0.annot.fa) / [Female list](03-READ_DEPTH/avg_female_0.annot.fa)
 > - Inconsistent read depth between sexes makes accurate comparison for sex bias sites difficult. 
 >   - resequence female individuals to match male libraries (or include 5 males vs 5 females in one lane with high coverage for confident sex bias calling)
-> - Both Males and Females showed very similar alignment results [alignment results](./02-ALIGN/sp5_bam_stats.txt) . Even With a Male reference
-> - No clear genotype result where males are hetero and females are homo (XY/XX or ZZ/ZW) for both reference and de-novo pipelines
-> - Generated a list of contig ID's that had no reads of the opposite sex align to [Male list](03-READ_DEPTH/avg_female_0.annot.fa) / [Female list](03-READ_DEPTH/avg_female_0.annot.fa)
 
 # Spurp_SexDetermination_RAD
 Bioinformatic WorkFlow used to find sex specific reads/genotypes within Spurp using RADseq
