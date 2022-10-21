@@ -4,8 +4,8 @@ VCFtools - 0.1.17
 
 Parameters as interpreted:
 	--vcf /home/Shared_Data/Spurp_RAD/03-VARIANT/Spurp.vcf
-	--hardy
 	--out /home/Shared_Data/Spurp_RAD/03-VARIANT/Spurp
+	--relatedness
 
 Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Estimated allele frequency in the range (0,1]">
 Warning: Expected at least 2 parts in INFO entry: ID=PRO,Number=1,Type=Float,Description="Reference allele observation count, with partial observations recorded fractionally">
@@ -27,8 +27,8 @@ Warning: Expected at least 2 parts in INFO entry: ID=CIGAR,Number=A,Type=String,
 Warning: Expected at least 2 parts in FORMAT entry: ID=GQ,Number=1,Type=Float,Description="Genotype Quality, the Phred-scaled marginal (or unconditional) probability of the called genotype">
 Warning: Expected at least 2 parts in FORMAT entry: ID=GL,Number=G,Type=Float,Description="Genotype Likelihood, log10-scaled likelihoods of the data given the called genotype for each possible genotype generated from the reference and alternate alleles given the sample ploidy">
 After filtering, kept 28 out of 28 Individuals
-Outputting HWE statistics (but only for biallelic loci)
-	HWE: Only using biallelic SNPs.
-	HWE: Only using fully diploid SNPs.
+Outputting Individual Relatedness
+	Relatedness: Only using biallelic sites.
+	Relatedness: Only using fully diploid sites.
 After filtering, kept 30177 out of a possible 30177 Sites
-Run Time = 1.00 seconds
+Run Time = 0.00 seconds
