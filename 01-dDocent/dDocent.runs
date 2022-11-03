@@ -1,0 +1,162 @@
+Variables used in dDocent (version 2.9.4) run at Fri Oct 21 13:10:10 EDT 2022
+Number of Processors
+64
+Trimming
+yes
+Assembly?
+yes
+Type_of_Assembly
+RPE
+Clustering_Similarity%
+0.9
+Minimum within individaul coverage level to include a read for assembly (K1)
+4
+Minimum number of individuals a read must be present in to include for assembly (K2)
+4
+Mapping_Reads?
+yes
+Mapping_Match_Value
+1
+Mapping_MisMatch_Value
+4
+Mapping_GapOpen_Penalty
+6
+Calling_SNPs?
+no
+Email
+jpuritz@uri.edu
+Variables used in dDocent (version 2.9.4) run at Fri Oct 21 14:17:21 EDT 2022
+Number of Processors
+64
+Trimming
+no
+Assembly?
+yes
+Type_of_Assembly
+RPE
+Clustering_Similarity%
+0.9
+Minimum within individaul coverage level to include a read for assembly (K1)
+4
+Minimum number of individuals a read must be present in to include for assembly (K2)
+4
+Mapping_Reads?
+yes
+Mapping_Match_Value
+1
+Mapping_MisMatch_Value
+4
+Mapping_GapOpen_Penalty
+6
+Calling_SNPs?
+no
+Email
+jpuritz@uri.edu
+Variables used in dDocent (version 2.9.4) run at Fri Oct 21 14:27:46 EDT 2022
+Number of Processors
+64
+Trimming
+no
+Assembly?
+yes
+Type_of_Assembly
+RPE
+Clustering_Similarity%
+0.9
+Minimum within individaul coverage level to include a read for assembly (K1)
+4
+Minimum number of individuals a read must be present in to include for assembly (K2)
+4
+Mapping_Reads?
+yes
+Mapping_Match_Value
+1
+Mapping_MisMatch_Value
+4
+Mapping_GapOpen_Penalty
+6
+Calling_SNPs?
+no
+Email
+jpuritz@uri.edu
+Variables used in dDocent (version 2.9.4) run at Fri Oct 21 15:00:55 EDT 2022
+Number of Processors
+64
+Trimming
+yes
+Assembly?
+yes
+Type_of_Assembly
+RPE
+Clustering_Similarity%
+0.9
+Minimum within individaul coverage level to include a read for assembly (K1)
+4
+Minimum number of individuals a read must be present in to include for assembly (K2)
+4
+Mapping_Reads?
+yes
+Mapping_Match_Value
+1
+Mapping_MisMatch_Value
+4
+Mapping_GapOpen_Penalty
+6
+Calling_SNPs?
+no
+Email
+jpuritz@uri.edu
+Variables used in dDocent (version 2.9.4) run at Fri Oct 21 23:14:37 EDT 2022
+Number of Processors
+64
+Trimming
+yes
+Assembly?
+yes
+Type_of_Assembly
+RPE
+Clustering_Similarity%
+0.9
+Minimum within individaul coverage level to include a read for assembly (K1)
+4
+Minimum number of individuals a read must be present in to include for assembly (K2)
+4
+Mapping_Reads?
+yes
+Mapping_Match_Value
+1
+Mapping_MisMatch_Value
+4
+Mapping_GapOpen_Penalty
+6
+Calling_SNPs?
+no
+Email
+jpuritz@uri.edu
+Variables used in dDocent (version 2.9.6) run at Sun Oct 23 11:53:50 EDT 2022
+Number of Processors
+64
+Trimming
+no
+Assembly?
+yes
+Type_of_Assembly
+RPE
+Clustering_Similarity%
+0.9
+Minimum within individaul coverage level to include a read for assembly (K1)
+4
+Minimum number of individuals a read must be present in to include for assembly (K2)
+4
+Mapping_Reads?
+yes
+Mapping_Match_Value
+1
+Mapping_MisMatch_Value
+4
+Mapping_GapOpen_Penalty
+6
+Calling_SNPs?
+no
+Email
+jpuritz@uri.edu
